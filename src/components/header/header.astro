@@ -1,0 +1,51 @@
+---
+const links = [
+  { label: "Main", url: "/#main" },
+  { label: "Game", url: "/#game" },
+];
+---
+
+<header>
+  <nav>
+    <ul>
+      {
+        links.map((link) => (
+          <li>
+            <a href={link.url}>{link.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+<style>
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 20;
+  }
+  nav {
+    display: flex;
+    justify-content: center;
+  }
+  ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 32px;
+  }
+
+  a:hover {
+    color: #ccc;
+  }
+</style>
