@@ -1,0 +1,54 @@
+---
+import MealCard from '../components/meal/meal-card.astro'
+import { getMealById } from '../domain/helper/get-meal-by-id'
+import Layout from '../layouts/Layout.astro'
+
+const mealId = Astro.cookies.get('meal_id')
+
+if (!Astro.cookies.has('meal_id')) {
+  return Astro.redirect('/')
+}
+
+if (!mealId.value) {
+  return Astro.redirect('/')
+}
+
+const meal = await getMealById(mealId.value)
+---
+
+<script>
+  const winStatus = localStorage.getItem('game_status')
+  const mealNode = document.getElementById('meal')
+  if (mealNode && winStatus === 'win') {
+    mealNode.classList.remove('hidden')
+  }
+
+  if (winStatus !== 'win') {
+    location.replace('/')
+  }
+</script>
+
+<Layout title="Dish">
+  <div id="meal" class="container hidden">
+    <MealCard meal={meal} />
+  </div>
+</Layout>
+
+<style>
+  .hidden {
+    visibility: hidden;
+  }
+  .container {
+    margin-top: 60px;
+    width: 100%;
+    background-image: url('./assets/parallax-1.avif');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .text-center {
+    white-space: pre-line;
+  }
+</style>
