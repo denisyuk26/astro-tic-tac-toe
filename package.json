@@ -12,5 +12,8 @@
   },
   "dependencies": {
     "astro": "^1.6.0"
+  },
+  "devDependencies": {
+    "nanostores": "^0.7.0"
   }
 }
