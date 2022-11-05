@@ -14,6 +14,7 @@ function formatMeal(data: { [key: string]: string }) {
   const instructions = data.strInstructions.split('\r\n')
 
   return {
+    id: data.idMeal,
     name: data.strMeal,
     image: data.strMealThumb,
     ingredients,

@@ -1,4 +1,5 @@
 export type Meal = {
+  id: string
   name: string
   image: string
   ingredients: Ingredient[]

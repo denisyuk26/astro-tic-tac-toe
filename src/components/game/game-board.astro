@@ -1,0 +1,117 @@
+---
+// import Icon from '../icon/icon.astro'
+import { Icon } from 'astro-icon'
+---
+
+<div class="board">
+  <div class="game-overlay">
+    <Icon name="play" id="play-btn" />
+    <Icon name="recipe-book-filled" id="recipe-btn" class="hide" />
+    <Icon name="replay" id="replay-btn" class="hide" />
+  </div>
+
+  <div class="game-container blur">
+    <div data-index="0" class="cell"></div>
+    <div data-index="1" class="cell"></div>
+    <div data-index="2" class="cell"></div>
+    <div data-index="3" class="cell"></div>
+    <div data-index="4" class="cell"></div>
+    <div data-index="5" class="cell"></div>
+    <div data-index="6" class="cell"></div>
+    <div data-index="7" class="cell"></div>
+    <div data-index="8" class="cell"></div>
+  </div>
+</div>
+<style lang="css">
+  .board {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .game-overlay {
+    position: absolute;
+    max-width: 470px;
+    width: 100%;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.333);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-size);
+  }
+
+  [astro-icon='recipe-book-filled'],
+  [astro-icon='play'],
+  [astro-icon='replay'] {
+    max-width: 150px;
+    width: 100%;
+    fill: rgb(255, 255, 255);
+    height: min-content;
+    margin: 0 auto;
+  }
+
+  [astro-icon='play']:active,
+  [astro-icon='recipe-book-filled']:active,
+  [astro-icon='replay']:active {
+    scale: 0.9;
+    transition: scale ease 0.2s;
+  }
+
+  .game-container {
+    width: 180px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 470px;
+    width: 100%;
+    height: 100%;
+    grid-template-rows: repeat(3, 1fr);
+    justify-content: center;
+    gap: var(--gap-size);
+    margin: 0 auto;
+  }
+
+  .game-container.blur {
+    /* filter: blur(4px); */
+    filter: blur(5px) brightness(0.4) saturate(2);
+    inset: -10px;
+  }
+
+  .cell {
+    width: 100%;
+    height: 150px;
+    background-color: rgb(122 142 156);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    transform: rotateY(0deg);
+    transition: transform ease 1s;
+  }
+  .cell:not(:empty) {
+    cursor: default;
+  }
+
+  .cell > .x,
+  .cell > .o {
+    width: 100px;
+    cursor: default;
+  }
+
+  .cell.victory {
+    background-color: rgb(15, 171, 75);
+  }
+  .cell.anim {
+    transform: rotateY(180deg);
+  }
+
+  .hide {
+    display: none;
+  }
+</style>

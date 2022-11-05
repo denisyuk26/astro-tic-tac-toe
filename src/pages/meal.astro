@@ -1,19 +1,15 @@
 ---
 import MealCard from '../components/meal/meal-card.astro'
 import { getMealById } from '../domain/helper/get-meal-by-id'
-import Layout from '../layouts/Layout.astro'
+import Layout from '../layouts/layout.astro'
 
 const mealId = Astro.cookies.get('meal_id')
-
-if (!Astro.cookies.has('meal_id')) {
-  return Astro.redirect('/')
-}
-
-if (!mealId.value) {
-  return Astro.redirect('/')
-}
-
 const meal = await getMealById(mealId.value)
+Astro.cookies.set('meal_id', meal.id)
+
+if (!meal) {
+  return Astro.redirect('/')
+}
 ---
 
 <script>
@@ -39,13 +35,7 @@ const meal = await getMealById(mealId.value)
     visibility: hidden;
   }
   .container {
-    margin-top: 60px;
     width: 100%;
-    background-image: url('./assets/parallax-1.avif');
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
   }
 
   .text-center {

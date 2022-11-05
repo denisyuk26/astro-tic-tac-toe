@@ -1,18 +1,15 @@
-<div id="main" class="container">
+<div class="container">
   <div class="content">
     <h1>Do you argue or don't know whose turn it is to cook?</h1>
-
     <h2>We have a solution for this:</h2>
-
-    <p class="rule">
+    <p class="intro">
       Play
-      <span class="rndm-1">Tic</span>
-      <span class="rndm-2">Tac</span>
-      <span class="rndm-3">Toe</span> (whose first move is your choice)
+      <span class="intro-text-color-1">Tic</span>
+      <span class="intro-text-color-2">Tac</span>
+      <span class="intro-text-color-3">Toe</span> (whose first move is your choice)
     </p>
-    <p class="rule">The loser has to prepare the dish</p>
-
-    <a id="link" href="/#game">Play</a>
+    <p class="intro">The loser has to prepare the dish</p>
+    <a href="/#game">Play</a>
   </div>
 </div>
 <style>
@@ -20,66 +17,61 @@
     width: 100%;
     height: 100vh;
     display: flex;
-    background-image: url('../../pages/assets/parallax-1.avif');
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
   }
 
-  .rndm-1 {
-    color: rgb(255, 42, 0);
-    font-style: italic;
-    font-weight: 800;
-  }
-
-  .rndm-2 {
-    color: #fff;
-    font-style: italic;
-    font-weight: 800;
-  }
-
-  .rndm-3 {
-    color: rgb(122 142 156);
-    font-style: italic;
-    font-weight: 800;
-  }
   .content {
-    display: flex;
-    background-color: rgba(20, 25, 29, 0.5);
     width: 100%;
-    justify-content: space-between;
-    align-items: center;
+    display: flex;
     flex-direction: column;
-    gap: 30px;
-    color: #fff;
-    padding: 40px 0 60px 0;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--overlay-color);
+    color: var(--white-text);
+    padding: calc(var(--gap-size) * 4) 0 calc(var(--gap-size) * 6) 0;
+    gap: calc(var(--gap-size) * 3);
+    min-height: 65vh;
   }
+
   h1 {
-    font-size: 42px;
+    font-size: var(--h1-fz);
   }
 
   h2 {
-    font-size: 35px;
+    font-size: var(--h2-fz);
   }
 
-  .rule {
+  .intro {
     font-size: 30px;
     line-height: 40px;
   }
 
+  .intro-text-color-1,
+  .intro-text-color-2,
+  .intro-text-color-3 {
+    font-style: italic;
+    font-weight: 800;
+  }
+
+  .intro-text-color-1 {
+    color: var(--cross-color);
+  }
+  .intro-text-color-2 {
+    color: var(--circle-color);
+  }
+  .intro-text-color-3 {
+    color: var(--board-cell-color);
+  }
+
   p {
-    font-size: 24px;
+    font-size: var(--default-text-size);
   }
   a {
-    font-size: 24px;
+    font-size: var(--default-text-size);
     text-decoration: none;
-    color: #fff;
+    color: var(--white-text);
     background-color: rgb(13 58 70);
-    padding: 10px 20px;
+    padding: var(--gap-size) calc(var(--gap-size) * 2);
     border-radius: 5px;
     max-width: 200px;
     width: 100%;

@@ -1,4 +1,6 @@
 ---
+import { Icon } from 'astro-icon'
+import GameBoard from './game-board.astro'
 ---
 
 <script>
@@ -6,23 +8,17 @@
 </script>
 
 <div class="container">
-  <h2 id="game-status"></h2>
   <div class="overlay">
-    <div class="game-container">
-      <div data-index="0" class="cell"></div>
-      <div data-index="1" class="cell"></div>
-      <div data-index="2" class="cell"></div>
-      <div data-index="3" class="cell"></div>
-      <div data-index="4" class="cell"></div>
-      <div data-index="5" class="cell"></div>
-      <div data-index="6" class="cell"></div>
-      <div data-index="7" class="cell"></div>
-      <div data-index="8" class="cell"></div>
+    <div class="wrap">
+      <Icon name="cross" />
+      <span class="left hidden">👈</span>
+    </div>
+    <GameBoard />
+    <div class="wrap">
+      <span class="right hidden">👉</span>
+      <Icon name="circle" />
     </div>
   </div>
-
-  <button id="restart-btn">Restart</button>
-  <button id="dish-btn" class="hidden">Go to dish</button>
 </div>
 <style>
   .container {
@@ -30,97 +26,46 @@
     flex-direction: column;
     justify-content: center;
     height: 100vh;
-    gap: 60px;
     width: 100%;
-    background-image: url('./assets/bg.jpeg');
-    background-repeat: no-repeat;
-    background-size: cover;
+    gap: calc(var(--gap-size) * 6);
+  }
+
+  [astro-icon='cross'],
+  [astro-icon='circle'] {
+    margin: 0 auto;
+    max-width: 200px;
+    width: 100%;
   }
 
   .overlay {
     width: 100%;
     background-color: rgba(20, 25, 29, 0.5);
-    padding: 40px 0;
+    padding: calc(var(--gap-size) * 4) calc(var(--gap-size) * 3);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    align-items: center;
+    min-height: 65vh;
+  }
+
+  .wrap {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--gap-size) * 3);
+    flex-wrap: wrap;
+  }
+
+  .wrap .reverse {
+    flex-direction: column-reverse;
+  }
+
+  .left,
+  .right {
+    font-size: 120px;
+    visibility: visible;
   }
 
   .hidden {
     visibility: hidden;
-  }
-
-  #game-status {
-    min-height: 70px;
-    text-align: center;
-    margin: 0;
-    font-size: 60px;
-    color: #fff;
-    word-spacing: 20px;
-  }
-
-  .game-container {
-    width: 180px;
-    display: grid;
-    justify-content: center;
-    gap: 10px;
-
-    align-content: center;
-    justify-items: center;
-    align-items: center;
-    grid-template-columns: repeat(3, 1fr);
-    margin: 0 auto;
-  }
-
-  .cell {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    background-color: rgb(122 142 156);
-
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  }
-
-  .cell:not(:empty) {
-    cursor: default;
-  }
-
-  .cell > .x {
-    align-self: center;
-    color: rgb(188, 30, 30);
-    width: 100px;
-    cursor: default;
-    text-align: center;
-  }
-
-  .cell > .o {
-    align-self: center;
-    color: rgb(15, 171, 75);
-    width: 100px;
-    cursor: default;
-    text-align: center;
-  }
-
-  .cell.victory {
-    background-color: rgb(15, 171, 75);
-  }
-
-  button {
-    max-width: 400px;
-    width: 100%;
-    height: 90px;
-    margin: 0 auto;
-    font-size: 36px;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    border-radius: 3px;
-    background-color: rgb(13 58 70);
-    color: #fff;
-  }
-
-  button:hover {
-    background-color: rgb(27, 101, 121);
   }
 </style>
