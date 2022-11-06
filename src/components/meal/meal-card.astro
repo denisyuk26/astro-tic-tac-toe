@@ -51,8 +51,8 @@ const { image, name, category, area, ingredients, instructions, video } =
     @include tablets() {
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows:
-        minmax(50px, auto) minmax(300px, auto) minmax(300px, 1fr)
-        minmax(300px, auto) minmax(300px, auto);
+        minmax(50px, auto) minmax(0, auto) minmax(0, 1fr)
+        minmax(0, auto) minmax(0, auto);
       padding: calc(var(--gap-size) * 2) 0;
       grid-column-gap: 0;
     }
