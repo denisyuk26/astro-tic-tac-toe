@@ -5,16 +5,15 @@ import Layout from '@layouts/main-layout.astro'
 
 const mealId = Astro.cookies.get('meal_id')
 const meal = await getMealById(mealId.value)
-Astro.cookies.set('meal_id', meal.id)
-
 if (!meal) {
   return Astro.redirect('/')
 }
+Astro.cookies.set('meal_id', meal.id)
 ---
 
 <script>
   const winStatus = localStorage.getItem('game_status')
-  const mealNode = document.getElementById('meal')
+  const mealNode = document.querySelector('.hidden')
   if (mealNode && winStatus === 'win') {
     mealNode.classList.remove('hidden')
   }
@@ -25,7 +24,7 @@ if (!meal) {
 </script>
 
 <Layout title="Dish">
-  <div id="meal" class="container hidden">
+  <div class="hidden">
     <MealCard meal={meal} />
   </div>
 </Layout>
@@ -33,11 +32,5 @@ if (!meal) {
 <style lang="scss">
   .hidden {
     visibility: hidden;
-  }
-  .container {
-    width: 100%;
-  }
-  .text-center {
-    white-space: pre-line;
   }
 </style>

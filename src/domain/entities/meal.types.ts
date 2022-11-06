@@ -6,7 +6,7 @@ export type Meal = {
   instructions: string[]
   category: string
   area: string
-  video: string
+  video?: string
 }
 
 export type Ingredient = {

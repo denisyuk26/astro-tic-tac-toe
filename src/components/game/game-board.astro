@@ -1,9 +1,15 @@
 ---
 // import Icon from '../icon/icon.astro'
 import { Icon } from 'astro-icon'
+import classNames from 'classnames'
+
+type Props = {
+  className?: string
+}
+const { className } = Astro.props
 ---
 
-<div class="board">
+<div class={classNames('board', className)}>
   <div class="game-overlay">
     <Icon name="play" id="play-btn" />
     <Icon name="recipe-book-filled" id="recipe-btn" class="hide" />

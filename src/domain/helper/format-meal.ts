@@ -11,7 +11,15 @@ function formatMeal(data: { [key: string]: string }) {
     }
   }
 
-  const instructions = data.strInstructions.split('\r\n')
+  ingredients.sort((a, b) => {
+    return a.ingredient.length - b.ingredient.length
+  })
+
+  const instructions = data.strInstructions
+    .split('\r\n')
+    .filter((instruction) => {
+      return instruction !== ''
+    })
 
   return {
     id: data.idMeal,

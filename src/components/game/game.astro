@@ -9,12 +9,15 @@ import GameBoard from './game-board.astro'
 
 <div class="container">
   <div class="overlay">
-    <div class="wrap">
+    <div class="title">
+      <h2><span>Tic</span><span>Tac</span><span>Toe</span></h2>
+    </div>
+    <div class="wrap x">
       <Icon name="cross" />
       <span class="left hidden">👈</span>
     </div>
-    <GameBoard />
-    <div class="wrap">
+    <GameBoard className="game-board" />
+    <div class="wrap o">
       <span class="right hidden">👉</span>
       <Icon name="circle" />
     </div>
@@ -43,9 +46,41 @@ import GameBoard from './game-board.astro'
     padding: calc(var(--gap-size) * 4) calc(var(--gap-size) * 3);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 0.4fr 1fr;
     justify-items: center;
     align-items: center;
     min-height: 65vh;
+    gap: 50px 0;
+  }
+
+  .title {
+    grid-area: 1 / 1 / 2 / 4;
+
+    h2 {
+      font-size: 100px;
+      display: flex;
+      gap: 10px;
+      font-style: italic;
+
+      :nth-child(1) {
+        color: var(--cross-color);
+      }
+      :nth-child(2) {
+        color: var(--board-cell-color);
+      }
+      :nth-child(3) {
+        color: var(--circle-color);
+      }
+    }
+  }
+  .x {
+    grid-area: 2 / 1 / 3 / 2;
+  }
+  .game-board {
+    grid-area: 2 / 2 / 3 / 3;
+  }
+  .o {
+    grid-area: 2 / 3 / 3 / 4;
   }
 
   .wrap {

@@ -1,4 +1,5 @@
 ---
+import Icon from 'astro-icon'
 import Footer from '../components/footer/footer.astro'
 import Parallax from '../components/parallax/parallax.astro'
 
@@ -10,7 +11,12 @@ const { title } = Astro.props
 ---
 
 <script>
-  if (window.location.pathname !== '/meal') {
+  const backBtn = document.querySelector('.back-btn')
+  const isMealPage = window.location.pathname === '/meal'
+  if (backBtn && isMealPage) {
+    backBtn.classList.remove('hide')
+  }
+  if (!isMealPage) {
     localStorage.removeItem('game_status')
   }
 </script>
@@ -31,11 +37,16 @@ const { title } = Astro.props
 
 <body>
   <Parallax>
+    <div class="back-btn hide">
+      <a href="/"><Icon name="arrow-left" /></a>
+    </div>
     <slot />
   </Parallax>
   <Footer />
 
-  <style is:global>
+  <style is:global lang="scss">
+    @import url('https://fonts.googleapis.com/css2?family=Poor+Story&display=swap');
+
     :root {
       --cross-color: rgb(255, 42, 0);
       --circle-color: rgb(255, 255, 255);
@@ -62,10 +73,33 @@ const { title } = Astro.props
       padding: 0;
       margin: 0;
       box-sizing: border-box;
+      font-family: 'Poor Story', cursive;
     }
     code {
       font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
         DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+    }
+
+    .back-btn {
+      position: fixed;
+      top: 10%;
+      left: 50px;
+    }
+
+    .hide {
+      visibility: hidden;
+    }
+
+    [astro-icon='arrow-left'] {
+      color: rgba(255, 255, 255, 0.8);
+      width: 60px;
+
+      &:active {
+        scale: 0.9;
+      }
+      &:hover {
+        color: var(--white-text);
+      }
     }
   </style>
 </body>
