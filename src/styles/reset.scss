@@ -1,0 +1,55 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: none;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  min-width: 320px;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  font-weight: normal;
+  line-height: 1;
+  margin: 0 auto;
+}
+
+@for $i from 1 through 6 {
+  h#{$i} {
+    margin: 0;
+  }
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  margin: 0;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  &::-moz-focus-inner {
+    border: 0;
+  }
+}
+
+a {
+  text-decoration: none;
+  outline: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+}
