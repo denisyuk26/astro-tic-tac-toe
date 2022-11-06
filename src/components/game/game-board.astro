@@ -22,7 +22,7 @@ import { Icon } from 'astro-icon'
     <div data-index="8" class="cell"></div>
   </div>
 </div>
-<style lang="css">
+<style lang="scss">
   .board {
     position: relative;
     width: 100%;
@@ -55,13 +55,11 @@ import { Icon } from 'astro-icon'
     fill: rgb(255, 255, 255);
     height: min-content;
     margin: 0 auto;
-  }
 
-  [astro-icon='play']:active,
-  [astro-icon='recipe-book-filled']:active,
-  [astro-icon='replay']:active {
-    scale: 0.9;
-    transition: scale ease 0.2s;
+    &:active {
+      scale: 0.9;
+      transition: scale ease 0.2s;
+    }
   }
 
   .game-container {
@@ -75,12 +73,11 @@ import { Icon } from 'astro-icon'
     justify-content: center;
     gap: var(--gap-size);
     margin: 0 auto;
-  }
 
-  .game-container.blur {
-    /* filter: blur(4px); */
-    filter: blur(5px) brightness(0.4) saturate(2);
-    inset: -10px;
+    &.blur {
+      filter: blur(5px) brightness(0.4) saturate(2);
+      inset: -10px;
+    }
   }
 
   .cell {
@@ -93,24 +90,24 @@ import { Icon } from 'astro-icon'
     cursor: pointer;
     transform: rotateY(0deg);
     transition: transform ease 1s;
-  }
-  .cell:not(:empty) {
-    cursor: default;
-  }
 
-  .cell > .x,
-  .cell > .o {
-    width: 100px;
-    cursor: default;
-  }
+    &:not(:empty) {
+      cursor: default;
+    }
 
-  .cell.victory {
-    background-color: rgb(15, 171, 75);
-  }
-  .cell.anim {
-    transform: rotateY(180deg);
-  }
+    > .x,
+    > .o {
+      width: 100px;
+      cursor: default;
+    }
+    &.victory {
+      background-color: rgb(15, 171, 75);
+    }
 
+    &.anim {
+      transform: rotateY(180deg);
+    }
+  }
   .hide {
     display: none;
   }

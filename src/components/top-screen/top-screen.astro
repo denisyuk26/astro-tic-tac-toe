@@ -4,15 +4,15 @@
     <h2>We have a solution for this:</h2>
     <p class="intro">
       Play
-      <span class="intro-text-color-1">Tic</span>
-      <span class="intro-text-color-2">Tac</span>
-      <span class="intro-text-color-3">Toe</span> (whose first move is your choice)
+      <span class="intro-text-1">Tic</span>
+      <span class="intro-text-2">Tac</span>
+      <span class="intro-text-3">Toe</span> (whose first move is your choice)
     </p>
     <p class="intro">The loser has to prepare the dish</p>
     <a href="/#game">Play</a>
   </div>
 </div>
-<style>
+<style lang="scss">
   .container {
     width: 100%;
     height: 100vh;
@@ -42,30 +42,27 @@
   }
 
   .intro {
-    font-size: 30px;
-    line-height: 40px;
-  }
-
-  .intro-text-color-1,
-  .intro-text-color-2,
-  .intro-text-color-3 {
-    font-style: italic;
-    font-weight: 800;
-  }
-
-  .intro-text-color-1 {
-    color: var(--cross-color);
-  }
-  .intro-text-color-2 {
-    color: var(--circle-color);
-  }
-  .intro-text-color-3 {
-    color: var(--board-cell-color);
-  }
-
-  p {
     font-size: var(--default-text-size);
+    line-height: 40px;
+
+    &-text-1,
+    &-text-2,
+    &-text-3 {
+      font-style: italic;
+      font-weight: 800;
+    }
+
+    &-text-1 {
+      color: var(--cross-color);
+    }
+    &-text-2 {
+      color: var(--circle-color);
+    }
+    &-text-3 {
+      color: var(--board-cell-color);
+    }
   }
+
   a {
     font-size: var(--default-text-size);
     text-decoration: none;
@@ -82,9 +79,9 @@
     outline: none;
     border: none;
     border-radius: 3px;
-  }
 
-  a:hover {
-    background-color: rgb(27, 101, 121);
+    &:hover {
+      background-color: rgb(27, 101, 121);
+    }
   }
 </style>

@@ -20,7 +20,7 @@ import GameBoard from './game-board.astro'
     </div>
   </div>
 </div>
-<style>
+<style lang="scss">
   .container {
     display: flex;
     flex-direction: column;
@@ -53,10 +53,10 @@ import GameBoard from './game-board.astro'
     align-items: center;
     gap: calc(var(--gap-size) * 3);
     flex-wrap: wrap;
-  }
 
-  .wrap .reverse {
-    flex-direction: column-reverse;
+    &.reverse {
+      flex-direction: column-reverse;
+    }
   }
 
   .left,

@@ -6,16 +6,18 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro check && tsc --noEmit && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/netlify": "^1.2.0",
     "astro": "^1.6.0"
   },
   "devDependencies": {
-    "@astrojs/cloudflare": "^3.1.2",
+    "@types/node": "^18.11.9",
     "astro-icon": "^0.8.0",
-    "nanostores": "^0.7.0"
+    "nanostores": "^0.7.0",
+    "sass": "^1.56.0"
   }
 }

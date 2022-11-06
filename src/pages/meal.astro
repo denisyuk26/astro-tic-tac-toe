@@ -1,7 +1,7 @@
 ---
-import MealCard from '../components/meal/meal-card.astro'
-import { getMealById } from '../domain/helper/get-meal-by-id'
-import Layout from '../layouts/layout.astro'
+import MealCard from '@components/meal/meal-card.astro'
+import { getMealById } from '@domain/helper/get-meal-by-id'
+import Layout from '@layouts/main-layout.astro'
 
 const mealId = Astro.cookies.get('meal_id')
 const meal = await getMealById(mealId.value)
@@ -30,14 +30,13 @@ if (!meal) {
   </div>
 </Layout>
 
-<style>
+<style lang="scss">
   .hidden {
     visibility: hidden;
   }
   .container {
     width: 100%;
   }
-
   .text-center {
     white-space: pre-line;
   }

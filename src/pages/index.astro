@@ -1,7 +1,7 @@
 ---
-import Game from '../components/game/game.astro'
-import Layout from '../layouts/layout.astro'
-import TopScreen from '../components/top-screen/top-screen.astro'
+import Game from '@components/game/game.astro'
+import TopScreen from '@components/top-screen/top-screen.astro'
+import Layout from '@layouts/main-layout.astro'
 
 Astro.cookies.delete('meal_id')
 ---
@@ -13,7 +13,7 @@ Astro.cookies.delete('meal_id')
   </main>
 </Layout>
 
-<style>
+<style lang="scss">
   main {
     width: 100%;
     display: flex;
