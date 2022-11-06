@@ -13,6 +13,7 @@
   </div>
 </div>
 <style lang="scss">
+  @import '../../styles/mixins.scss';
   .container {
     width: 100%;
     height: 100vh;
@@ -31,26 +32,46 @@
     padding: calc(var(--gap-size) * 4) 0 calc(var(--gap-size) * 6) 0;
     gap: calc(var(--gap-size) * 3);
     min-height: 65vh;
+
+    @include tablets {
+      padding: var(--gap-size) calc(var(--gap-size) * 3);
+      align-items: center;
+    }
+
+    @include phones() {
+      padding: var(--gap-size) calc(var(--gap-size) * 2);
+      align-items: flex-start;
+    }
   }
 
   h1 {
     font-size: 60px;
+
+    @include tablets() {
+      font-size: 40px;
+      text-align: center;
+    }
+
+    @include phones() {
+      font-size: 30px;
+      text-align: start;
+    }
   }
 
   h2 {
     font-size: 45px;
+
+    @include tablets() {
+      font-size: 30px;
+    }
   }
 
   .intro {
     font-size: 40px;
     line-height: 40px;
 
-    &-text-1,
-    &-text-2,
-    &-text-3 {
-      font-size: 45px;
-      font-style: italic;
-      font-weight: 800;
+    @include tablets() {
+      font-size: 30px;
     }
 
     &-text-1 {
@@ -61,6 +82,18 @@
     }
     &-text-3 {
       color: var(--board-cell-color);
+    }
+
+    &-text-1,
+    &-text-2,
+    &-text-3 {
+      font-size: 45px;
+      font-style: italic;
+      font-weight: 800;
+
+      @include tablets() {
+        font-size: 30px;
+      }
     }
   }
 

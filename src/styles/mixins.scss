@@ -1,0 +1,27 @@
+// Extra small devices (portrait phones, less than 576px)
+@mixin phones {
+  @media (max-width: 575px) {
+    @content;
+  }
+}
+
+// Small devices (landscape phones, 768px)
+@mixin phones-landscape {
+  @media (max-width: 769px) {
+    @content;
+  }
+}
+
+// Medium devices (tablets, 1024px)
+@mixin tablets {
+  @media (max-width: 1025px) {
+    @content;
+  }
+}
+
+// Large devices (desktops, 1366px)
+@mixin desktops {
+  @media (max-width: 1367px) {
+    @content;
+  }
+}

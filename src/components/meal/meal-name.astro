@@ -19,9 +19,14 @@ const { name, area, category, className } = Astro.props
   </div>
 </div>
 <style lang="scss">
+  @import '../../styles/mixins.scss';
   h1 {
     font-size: 60px;
     text-align: center;
+
+    @include tablets {
+      font-size: 40px;
+    }
   }
 
   .subheadline {
@@ -30,8 +35,16 @@ const { name, area, category, className } = Astro.props
     align-items: center;
     gap: 30px;
 
+    @include tablets {
+      gap: 10px;
+    }
+
     h3 {
       font-size: 30px;
+
+      @include tablets {
+        font-size: 20px;
+      }
     }
   }
 </style>
