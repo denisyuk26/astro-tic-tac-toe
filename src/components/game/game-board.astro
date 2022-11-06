@@ -1,0 +1,130 @@
+---
+// import Icon from '../icon/icon.astro'
+import { Icon } from 'astro-icon'
+import classNames from 'classnames'
+
+type Props = {
+  className?: string
+}
+const { className } = Astro.props
+---
+
+<div class={classNames('board', className)}>
+  <div class="game-overlay">
+    <Icon name="play" id="play-btn" />
+    <Icon name="recipe-book-filled" id="recipe-btn" class="hide" />
+    <Icon name="replay" id="replay-btn" class="hide" />
+  </div>
+
+  <div class="game-container blur">
+    <div data-index="0" class="cell"></div>
+    <div data-index="1" class="cell"></div>
+    <div data-index="2" class="cell"></div>
+    <div data-index="3" class="cell"></div>
+    <div data-index="4" class="cell"></div>
+    <div data-index="5" class="cell"></div>
+    <div data-index="6" class="cell"></div>
+    <div data-index="7" class="cell"></div>
+    <div data-index="8" class="cell"></div>
+  </div>
+</div>
+<style lang="scss">
+  @import '../../styles/mixins.scss';
+
+  .board {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .game-overlay {
+    position: absolute;
+
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-size);
+
+    @include phones() {
+      background: transparent;
+    }
+  }
+
+  [astro-icon='recipe-book-filled'],
+  [astro-icon='play'],
+  [astro-icon='replay'] {
+    max-width: 150px;
+    width: 100%;
+    fill: rgb(255, 255, 255);
+    height: min-content;
+    margin: 0 auto;
+
+    &:active {
+      scale: 0.9;
+      transition: scale ease 0.2s;
+    }
+  }
+
+  .game-container {
+    width: 180px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 470px;
+    width: 100%;
+    height: 100%;
+    grid-template-rows: repeat(3, 1fr);
+    justify-content: center;
+    gap: var(--gap-size);
+    margin: 0 auto;
+
+    &.blur {
+      filter: blur(5px) brightness(0.4) saturate(2);
+      inset: -10px;
+    }
+  }
+
+  .cell {
+    aspect-ratio: 1/1;
+    width: 100%;
+    height: 150px;
+    background-color: rgb(122 142 156);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    transform: rotateY(0deg);
+    transition: transform ease 1s;
+
+    @include phones() {
+      height: 110px;
+      aspect-ratio: 1/1;
+    }
+
+    &:not(:empty) {
+      cursor: default;
+    }
+
+    > .x,
+    > .o {
+      width: 100px;
+      cursor: default;
+    }
+    &.victory {
+      background-color: rgb(15, 171, 75);
+    }
+
+    &.anim {
+      transform: rotateY(180deg);
+    }
+  }
+  .hide {
+    display: none;
+  }
+</style>

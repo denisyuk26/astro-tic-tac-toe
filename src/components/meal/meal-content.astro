@@ -1,0 +1,38 @@
+---
+import classNames from 'classnames'
+
+type Props = {
+  instructions: string[]
+  className?: string
+}
+
+const { instructions, className } = Astro.props
+---
+
+<div class={classNames('method-card', className)}>
+  <h4 class="method-card-title">Method</h4>
+  {
+    instructions.map((instruction) => {
+      return <p class="method-card-item">{instruction}</p>
+    })
+  }
+</div>
+<style lang="scss">
+  .method-card {
+    display: flex;
+    flex-direction: column;
+    background: rgba(122, 142, 156, 0.4);
+    border-radius: 5px;
+    padding: calc(var(--gap-size) * 2);
+    gap: calc(var(--gap-size) * 2);
+
+    &-title {
+      font-size: 30px;
+      text-align: center;
+    }
+
+    &-item {
+      font-size: 26px;
+    }
+  }
+</style>

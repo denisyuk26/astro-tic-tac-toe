@@ -1,11 +1,9 @@
 ---
-import Game from '../components/game/game.astro'
-import Layout from '../layouts/Layout.astro'
-import TopScreen from '../components/top-screen/top-screen.astro'
-import { getRandomMealId } from '../domain/helper/get-random-meal-id'
+import Game from '@components/game/game.astro'
+import TopScreen from '@components/top-screen/top-screen.astro'
+import Layout from '@layouts/main-layout.astro'
 
-const id = await getRandomMealId()
-Astro.cookies.set('meal_id', id)
+Astro.cookies.delete('meal_id')
 ---
 
 <Layout title="Welcome to Astro.">
@@ -15,19 +13,12 @@ Astro.cookies.set('meal_id', id)
   </main>
 </Layout>
 
-<style>
+<style lang="scss">
   main {
     width: 100%;
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
-    background-color: rgba(20, 25, 29, 0.5);
-    background-image: url('./assets/parallax-1.avif');
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
   }
 </style>

@@ -1,0 +1,50 @@
+---
+import classNames from 'classnames'
+
+type Props = {
+  name: string
+  area: string
+  category: string
+  className?: string
+}
+
+const { name, area, category, className } = Astro.props
+---
+
+<div class={classNames('title', className)}>
+  <h1>{name}</h1>
+  <div class="subheadline">
+    <h3>Category: {category}</h3>
+    <h3>Area: {area}</h3>
+  </div>
+</div>
+<style lang="scss">
+  @import '../../styles/mixins.scss';
+  h1 {
+    font-size: 60px;
+    text-align: center;
+
+    @include tablets {
+      font-size: 40px;
+    }
+  }
+
+  .subheadline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
+    @include tablets {
+      gap: 10px;
+    }
+
+    h3 {
+      font-size: 30px;
+
+      @include tablets {
+        font-size: 20px;
+      }
+    }
+  }
+</style>

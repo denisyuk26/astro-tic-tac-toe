@@ -1,3 +1,18 @@
 {
-  "extends": "astro/tsconfigs/strict"
+  // "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "declaration": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["astro/client", "node", "vitest/globals"],
+    "baseUrl": ".",
+    "paths": {
+      "@domain/*": ["src/domain/*"],
+      "@components/*": ["src/components/*"],
+      "@layouts/*": ["src/layouts/*"]
+    }
+  }
 }

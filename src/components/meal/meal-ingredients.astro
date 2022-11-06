@@ -1,0 +1,79 @@
+---
+import { Meal } from '@domain/entities/meal.types'
+import classNames from 'classnames'
+
+type Props = {
+  ingredients: Meal['ingredients']
+  className?: string
+}
+
+const { ingredients, className } = Astro.props
+---
+
+<div class={classNames('ingredients', className)}>
+  <h5 class="title">Ingredients:</h5>
+  <div class="list">
+    {
+      ingredients.map(({ ingredient, measure }) => (
+        <div class="list-item">
+          {ingredient} <span>({measure})</span>
+        </div>
+      ))
+    }
+  </div>
+</div>
+<style lang="scss">
+  @import '../../styles/mixins.scss';
+  .ingredients {
+    background: rgba(122, 142, 156, 0.4);
+    border-radius: 5px;
+    padding: calc(var(--gap-size) * 2);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--gap-size) * 2);
+    height: max-content;
+
+    @include tablets {
+      height: 100%;
+    }
+  }
+  .title {
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0 auto;
+  }
+
+  .list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+    gap: 10px;
+
+    @include tablets {
+      grid-template-columns: repeat(2, minmax(80px, 1fr));
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+      gap: 2px;
+    }
+
+    @include phones() {
+      grid-template-columns: repeat(2, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    &-item {
+      font-size: 20px;
+      line-height: 26px;
+      font-weight: 400;
+
+      @include tablets {
+        font-size: 18px;
+        line-height: 24px;
+      }
+
+      & span {
+        font-weight: 700;
+      }
+    }
+  }
+</style>

@@ -1,98 +1,121 @@
-<div id="main" class="container">
+<div class="container">
   <div class="content">
     <h1>Do you argue or don't know whose turn it is to cook?</h1>
-
     <h2>We have a solution for this:</h2>
-
-    <p class="rule">
+    <p class="intro">
       Play
-      <span class="rndm-1">Tic</span>
-      <span class="rndm-2">Tac</span>
-      <span class="rndm-3">Toe</span> (whose first move is your choice)
+      <span class="intro-text-1">Tic</span>
+      <span class="intro-text-2">Tac</span>
+      <span class="intro-text-3">Toe</span> (whose first move is your choice)
     </p>
-    <p class="rule">The loser has to prepare the dish</p>
-
-    <a id="link" href="/#game">Play</a>
+    <p class="intro">The loser has to prepare the dish</p>
+    <a href="/#game">Play</a>
   </div>
 </div>
-<style>
+<style lang="scss">
+  @import '../../styles/mixins.scss';
   .container {
     width: 100%;
     height: 100vh;
     display: flex;
-    background-image: url('../../pages/assets/parallax-1.avif');
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
   }
 
-  .rndm-1 {
-    color: rgb(255, 42, 0);
-    font-style: italic;
-    font-weight: 800;
-  }
-
-  .rndm-2 {
-    color: #fff;
-    font-style: italic;
-    font-weight: 800;
-  }
-
-  .rndm-3 {
-    color: rgb(122 142 156);
-    font-style: italic;
-    font-weight: 800;
-  }
   .content {
-    display: flex;
-    background-color: rgba(20, 25, 29, 0.5);
     width: 100%;
-    justify-content: space-between;
-    align-items: center;
+    display: flex;
     flex-direction: column;
-    gap: 30px;
-    color: #fff;
-    padding: 40px 0 60px 0;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--overlay-color);
+    color: var(--white-text);
+    padding: calc(var(--gap-size) * 4) 0 calc(var(--gap-size) * 6) 0;
+    gap: calc(var(--gap-size) * 3);
+    min-height: 65vh;
+
+    @include tablets {
+      padding: var(--gap-size) calc(var(--gap-size) * 3);
+      align-items: center;
+    }
+
+    @include phones() {
+      padding: var(--gap-size) calc(var(--gap-size) * 2);
+      align-items: flex-start;
+    }
   }
+
   h1 {
-    font-size: 42px;
+    font-size: 60px;
+
+    @include tablets() {
+      font-size: 40px;
+      text-align: center;
+    }
+
+    @include phones() {
+      font-size: 30px;
+      text-align: start;
+    }
   }
 
   h2 {
-    font-size: 35px;
+    font-size: 45px;
+
+    @include tablets() {
+      font-size: 30px;
+    }
   }
 
-  .rule {
-    font-size: 30px;
+  .intro {
+    font-size: 40px;
     line-height: 40px;
+
+    @include tablets() {
+      font-size: 30px;
+    }
+
+    &-text-1 {
+      color: var(--cross-color);
+    }
+    &-text-2 {
+      color: var(--circle-color);
+    }
+    &-text-3 {
+      color: var(--board-cell-color);
+    }
+
+    &-text-1,
+    &-text-2,
+    &-text-3 {
+      font-size: 45px;
+      font-style: italic;
+      font-weight: 800;
+
+      @include tablets() {
+        font-size: 30px;
+      }
+    }
   }
 
-  p {
-    font-size: 24px;
-  }
   a {
-    font-size: 24px;
     text-decoration: none;
-    color: #fff;
+    color: var(--white-text);
     background-color: rgb(13 58 70);
-    padding: 10px 20px;
+    padding: var(--gap-size) calc(var(--gap-size) * 2);
     border-radius: 5px;
     max-width: 200px;
     width: 100%;
     margin: 0 auto;
-    font-size: 36px;
+    font-size: 40px;
     cursor: pointer;
     text-align: center;
-    outline: none;
-    border: none;
-    border-radius: 3px;
-  }
 
-  a:hover {
-    background-color: rgb(27, 101, 121);
+    &:hover {
+      background-color: rgb(27, 101, 121);
+    }
+
+    &:active {
+      scale: 0.9;
+    }
   }
 </style>
