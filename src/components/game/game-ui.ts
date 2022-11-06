@@ -114,7 +114,8 @@ function changeCellUI(element: Element | null) {
     [CurrentPlayer.O]: CircleSVG,
   }
   const { currentPlayer } = store.get()
-  const [, astroName] = element.classList
+
+  const [, astroName] = element.classList.value.split(' ')
 
   element.classList.add('anim')
   const timeout = setTimeout(() => {
