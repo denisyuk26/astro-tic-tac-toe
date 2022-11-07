@@ -1,10 +1,6 @@
 import CrossSVG from '../../icons/cross.svg'
 import CircleSVG from '../../icons/circle.svg'
-import {
-  CurrentPlayer,
-  GameStatus,
-  store,
-} from '../../domain/stores/game.store'
+import { CurrentPlayer, store } from '../../domain/stores/game.store'
 
 const playButton: HTMLElement | null = document.getElementById('play-btn')
 const replayButton: HTMLElement | null = document.getElementById('replay-btn')
@@ -22,7 +18,41 @@ enum UIAction {
 
 type UIData = [Element | null, string, UIAction]
 
-function changePlayerUI() {
+function changeWinCombinationUI(
+  arrayNodes: NodeListOf<Element>,
+  winCombination: number[],
+  className: string,
+) {
+  const timeout = setTimeout(() => {
+    winCombination.forEach((index) => {
+      arrayNodes[index].classList.add(className)
+    })
+  }, 500)
+
+  return () => clearTimeout(timeout)
+}
+
+function clearCellsUI(arrayNodes: NodeListOf<Element>) {
+  arrayNodes.forEach((cell) => {
+    cell.classList.remove('victory')
+    cell.classList.remove('anim')
+    cell.innerHTML = ''
+  })
+}
+
+function changeElementsUI(data: UIData[], delay: number = 0) {
+  const timeout = setTimeout(() => {
+    data.forEach(([element, className, action]) => {
+      if (element) {
+        element.classList[action](className)
+      }
+    })
+  }, delay)
+
+  return () => clearTimeout(timeout)
+}
+
+export function changePlayerUI() {
   const { currentPlayer } = store.get()
   if (!crossNode || !circleNode) {
     return
@@ -36,7 +66,7 @@ function changePlayerUI() {
   }
 }
 
-function changeWinUI() {
+export function changeWinUI() {
   const { currentPlayer } = store.get()
   const data: UIData[] = [
     [gameOverlay, 'hide', UIAction.Remove],
@@ -63,7 +93,7 @@ function changeWinUI() {
   }
 }
 
-function changeDrawUI() {
+export function changeDrawUI() {
   const data: UIData[] = [
     [gameOverlay, 'hide', UIAction.Remove],
     [replayButton, 'hide', UIAction.Remove],
@@ -76,7 +106,7 @@ function changeDrawUI() {
   changeElementsUI(data)
 }
 
-function changeRestartUI() {
+export function changeRestartUI() {
   clearCellsUI(cellNodes)
 
   const data: UIData[] = [
@@ -96,7 +126,7 @@ function changeRestartUI() {
   circleNode.innerHTML = '👉'
 }
 
-function changeStartUI() {
+export function changeStartUI() {
   const data: UIData[] = [
     [gameOverlay, 'hide', UIAction.Add],
     [crossNode, 'hidden', UIAction.Remove],
@@ -105,7 +135,7 @@ function changeStartUI() {
   changeElementsUI(data)
 }
 
-function changeCellUI(element: Element | null) {
+export function changeCellUI(element: Element | null) {
   if (!element) {
     throw new Error('Element is null')
   }
@@ -122,75 +152,4 @@ function changeCellUI(element: Element | null) {
     element.innerHTML = `<img src="${iconMap[currentPlayer]}" class="${currentPlayer} ${astroName}"/>`
   }, 300)
   return () => clearTimeout(timeout)
-}
-
-export function changeElementsUI(data: UIData[], delay: number = 0) {
-  const timeout = setTimeout(() => {
-    data.forEach(([element, className, action]) => {
-      if (element) {
-        element.classList[action](className)
-      }
-    })
-  }, delay)
-
-  return () => clearTimeout(timeout)
-}
-
-function changeWinCombinationUI(
-  arrayNodes: NodeListOf<Element>,
-  winCombination: number[],
-  className: string,
-) {
-  const timeout = setTimeout(() => {
-    winCombination.forEach((index) => {
-      arrayNodes[index].classList.add(className)
-    })
-  }, 500)
-
-  return () => clearTimeout(timeout)
-}
-
-function clearCellsUI(arrayNodes: NodeListOf<Element>) {
-  arrayNodes.forEach((cell) => {
-    cell.classList.remove('victory')
-    cell.classList.remove('anim')
-    cell.innerHTML = ''
-  })
-}
-
-function statusListener(status: GameStatus) {
-  switch (status) {
-    case GameStatus.Draw:
-      changeDrawUI()
-      return
-
-    case GameStatus.Win:
-      changeWinUI()
-      return
-
-    case GameStatus.Restart: {
-      changeRestartUI()
-      return
-    }
-    case GameStatus.Running:
-      changeStartUI()
-      return
-
-    default:
-      return
-  }
-}
-
-export function initUI() {
-  store.listen((value, key) => {
-    if (key === 'status') {
-      statusListener(value[key])
-    }
-    if (key === 'currentPlayer') {
-      changePlayerUI()
-    }
-    if (key === 'node') {
-      changeCellUI(value[key])
-    }
-  })
 }
