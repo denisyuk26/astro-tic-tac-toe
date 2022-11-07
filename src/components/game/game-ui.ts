@@ -1,6 +1,6 @@
-import CrossSVG from '../../icons/cross.svg'
+import { Combination, Player } from '../../domain/stores/game.store'
 import CircleSVG from '../../icons/circle.svg'
-import { CurrentPlayer, store } from '../../domain/stores/game.store'
+import CrossSVG from '../../icons/cross.svg'
 
 const playButton: HTMLElement | null = document.getElementById('play-btn')
 const replayButton: HTMLElement | null = document.getElementById('replay-btn')
@@ -18,20 +18,6 @@ enum UIAction {
 
 type UIData = [Element | null, string, UIAction]
 
-function changeWinCombinationUI(
-  arrayNodes: NodeListOf<Element>,
-  winCombination: number[],
-  className: string,
-) {
-  const timeout = setTimeout(() => {
-    winCombination.forEach((index) => {
-      arrayNodes[index].classList.add(className)
-    })
-  }, 500)
-
-  return () => clearTimeout(timeout)
-}
-
 function clearCellsUI(arrayNodes: NodeListOf<Element>) {
   arrayNodes.forEach((cell) => {
     cell.classList.remove('victory')
@@ -40,7 +26,7 @@ function clearCellsUI(arrayNodes: NodeListOf<Element>) {
   })
 }
 
-function changeElementsUI(data: UIData[], delay: number = 0) {
+function applyActionOnElements(data: UIData[], delay: number = 0) {
   const timeout = setTimeout(() => {
     data.forEach(([element, className, action]) => {
       if (element) {
@@ -52,12 +38,12 @@ function changeElementsUI(data: UIData[], delay: number = 0) {
   return () => clearTimeout(timeout)
 }
 
-export function changePlayerUI() {
-  const { currentPlayer } = store.get()
+export function changePlayerUI(currentPlayer: Player) {
   if (!crossNode || !circleNode) {
-    return
+    throw new Error('Could not find current player node')
   }
-  if (currentPlayer === CurrentPlayer.X) {
+
+  if (currentPlayer === Player.Cross) {
     crossNode.classList.remove('hidden')
     circleNode.classList.add('hidden')
   } else {
@@ -66,8 +52,34 @@ export function changePlayerUI() {
   }
 }
 
+export function changePlayerWinner(player: Player) {
+  if (!crossNode || !circleNode) {
+    return
+  }
+
+  circleNode.classList.remove('hidden')
+  crossNode.classList.remove('hidden')
+
+  if (player === Player.Cross) {
+    crossNode.innerHTML = '👑'
+    circleNode.innerHTML = '😭'
+  } else {
+    circleNode.innerHTML = '👑'
+    crossNode.innerHTML = '😭'
+  }
+}
+
+export function changeWinCombinationUI(combination: Readonly<Combination>) {
+  const timeout = setTimeout(() => {
+    combination.forEach((coordinate) => {
+      cellNodes[coordinate].classList.add('victory')
+    })
+  }, 500)
+
+  return () => clearTimeout(timeout)
+}
+
 export function changeWinUI() {
-  const { currentPlayer } = store.get()
   const data: UIData[] = [
     [gameOverlay, 'hide', UIAction.Remove],
     [recipeButton, 'hide', UIAction.Remove],
@@ -76,21 +88,7 @@ export function changeWinUI() {
     [playButton, 'hide', UIAction.Add],
   ]
 
-  changeElementsUI(data, 300)
-  changeWinCombinationUI(cellNodes, store.get().winCombination, 'victory')
-  if (!crossNode || !circleNode) {
-    return
-  }
-  circleNode.classList.remove('hidden')
-  crossNode.classList.remove('hidden')
-
-  if (currentPlayer === CurrentPlayer.X) {
-    crossNode.innerHTML = '👑'
-    circleNode.innerHTML = '😭'
-  } else {
-    circleNode.innerHTML = '👑'
-    crossNode.innerHTML = '😭'
-  }
+  applyActionOnElements(data, 300)
 }
 
 export function changeDrawUI() {
@@ -103,7 +101,7 @@ export function changeDrawUI() {
     [circleNode, 'hidden', UIAction.Add],
     [crossNode, 'hidden', UIAction.Add],
   ]
-  changeElementsUI(data)
+  applyActionOnElements(data)
 }
 
 export function changeRestartUI() {
@@ -118,7 +116,8 @@ export function changeRestartUI() {
     [circleNode, 'hidden', UIAction.Add],
     [crossNode, 'hidden', UIAction.Remove],
   ]
-  changeElementsUI(data)
+  applyActionOnElements(data)
+
   if (!crossNode || !circleNode) {
     return
   }
@@ -132,24 +131,22 @@ export function changeStartUI() {
     [crossNode, 'hidden', UIAction.Remove],
     [gameContainer, 'blur', UIAction.Remove],
   ]
-  changeElementsUI(data)
+  applyActionOnElements(data)
 }
 
-export function changeCellUI(element: Element | null) {
-  if (!element) {
-    throw new Error('Element is null')
+export function changeCellUI(currentPlayer: Player, element: Element) {
+  const iconMap: Record<Player, string> = {
+    [Player.Cross]: CrossSVG,
+    [Player.Circle]: CircleSVG,
   }
-  const iconMap = {
-    [CurrentPlayer.X]: CrossSVG,
-    [CurrentPlayer.O]: CircleSVG,
-  }
-  const { currentPlayer } = store.get()
 
   const [, astroName] = element.classList.value.split(' ')
 
   element.classList.add('anim')
+
   const timeout = setTimeout(() => {
     element.innerHTML = `<img src="${iconMap[currentPlayer]}" class="${currentPlayer} ${astroName}"/>`
   }, 300)
+
   return () => clearTimeout(timeout)
 }

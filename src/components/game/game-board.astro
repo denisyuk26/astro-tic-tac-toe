@@ -1,7 +1,6 @@
 ---
 // import Icon from '../icon/icon.astro'
-import { Icon } from 'astro-icon'
-import classNames from 'classnames'
+import { Icon } from 'astro-icon';
 
 type Props = {
   className?: string
@@ -9,7 +8,7 @@ type Props = {
 const { className } = Astro.props
 ---
 
-<div class={classNames('board', className)}>
+<div class={`board ${className}`}>
   <div class="game-overlay">
     <Icon name="play" id="play-btn" />
     <Icon name="recipe-book-filled" id="recipe-btn" class="hide" />
@@ -17,15 +16,15 @@ const { className } = Astro.props
   </div>
 
   <div class="game-container blur">
-    <div data-index="0" class="cell"></div>
-    <div data-index="1" class="cell"></div>
-    <div data-index="2" class="cell"></div>
-    <div data-index="3" class="cell"></div>
-    <div data-index="4" class="cell"></div>
-    <div data-index="5" class="cell"></div>
-    <div data-index="6" class="cell"></div>
-    <div data-index="7" class="cell"></div>
-    <div data-index="8" class="cell"></div>
+    <div data-coordinate="0" class="cell"></div>
+    <div data-coordinate="1" class="cell"></div>
+    <div data-coordinate="2" class="cell"></div>
+    <div data-coordinate="3" class="cell"></div>
+    <div data-coordinate="4" class="cell"></div>
+    <div data-coordinate="5" class="cell"></div>
+    <div data-coordinate="6" class="cell"></div>
+    <div data-coordinate="7" class="cell"></div>
+    <div data-coordinate="8" class="cell"></div>
   </div>
 </div>
 <style lang="scss">
