@@ -1,6 +1,7 @@
 ---
 // import Icon from '../icon/icon.astro'
-import { Icon } from 'astro-icon';
+import Lobby from '@components/lobby/lobby.astro'
+import { Icon } from 'astro-icon'
 
 type Props = {
   className?: string
@@ -10,7 +11,6 @@ const { className } = Astro.props
 
 <div class={`board ${className}`}>
   <div class="game-overlay">
-    <Icon name="play" id="play-btn" />
     <Icon name="recipe-book-filled" id="recipe-btn" class="hide" />
     <Icon name="replay" id="replay-btn" class="hide" />
   </div>
@@ -82,6 +82,11 @@ const { className } = Astro.props
     justify-content: center;
     gap: var(--gap-size);
     margin: 0 auto;
+    pointer-events: none;
+
+    &.active {
+      pointer-events: all;
+    }
 
     &.blur {
       filter: blur(5px) brightness(0.4) saturate(2);

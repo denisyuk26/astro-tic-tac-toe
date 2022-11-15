@@ -1,3 +1,6 @@
+import gameService from '@domain/services/game-service'
+import lobbyService from '@domain/services/lobby-service'
+import socketService from '@domain/services/socket-service'
 import {
   currentPlayerStore,
   GameStatus,
@@ -6,20 +9,23 @@ import {
   gameWinnerStore,
   lastMoveStore,
   makeMove,
+  Player,
   restartGameStateStore,
 } from '@domain/stores/game.store'
+
 import {
   changeCellUI,
   changeDrawUI,
   changePlayerUI,
-  changePlayerWinner,
   changeRestartUI,
   changeStartUI,
   changeWinCombinationUI,
   changeWinUI,
+  showGameBoardUI,
+  disableGameBoardUI,
+  enableGameBoardUI,
 } from './game-ui'
 
-const playButton: HTMLElement | null = document.getElementById('play-btn')
 const replayButton: HTMLElement | null = document.getElementById('replay-btn')
 const recipeButton: HTMLElement | null = document.getElementById('recipe-btn')
 const cellNodes: NodeListOf<Element> = document.querySelectorAll('.cell')
@@ -32,16 +38,24 @@ function handleCellClick(event: Event) {
   }
   const clickedValue: number = Number.parseInt(clickedCell.dataset.coordinate)
   makeMove(clickedValue)
+  if (socketService.socket) {
+    gameService.makeMove(socketService.socket, {
+      coordinate: clickedValue,
+    })
+  }
+  disableGameBoardUI()
 }
 
-function handleChangeStartState() {
+export function handleChangeStartState() {
   restartGameStateStore()
   changeStartUI()
 }
 
 function handleChangeRestartState() {
-  restartGameStateStore()
-  changeRestartUI()
+  if (socketService.socket) {
+    gameService.restartGame(socketService.socket)
+  }
+
   localStorage.removeItem('game_status')
 }
 
@@ -49,13 +63,14 @@ function handleRedirectToDish() {
   window.location.href = `${window.location.origin}/meal`
 }
 
-function init() {
-  if (!playButton || !replayButton || !recipeButton) {
+async function init() {
+  await socketService.connect('https://wsdata.herokuapp.com')
+
+  if (!replayButton || !recipeButton) {
     throw new Error('could not find elements')
   }
 
   cellNodes.forEach((cell) => cell.addEventListener('click', handleCellClick))
-  playButton.addEventListener('click', handleChangeStartState)
   replayButton.addEventListener('click', handleChangeRestartState)
   recipeButton.addEventListener('click', handleRedirectToDish)
 
@@ -73,7 +88,7 @@ function init() {
 
   let clearGameWinnerListener = gameWinnerStore.listen((player) => {
     if (player) {
-      changePlayerWinner(player)
+      enableGameBoardUI()
     }
   })
 
@@ -105,7 +120,6 @@ function init() {
       cell.removeEventListener('click', handleCellClick),
     )
 
-    playButton.removeEventListener('click', handleChangeStartState)
     replayButton.removeEventListener('click', handleChangeRestartState)
     recipeButton.removeEventListener('click', handleRedirectToDish)
 
@@ -118,3 +132,32 @@ function init() {
 }
 
 init()
+
+if (socketService.socket) {
+  lobbyService.onRoomLeave(socketService.socket, () => {
+    if (socketService.socket) {
+      gameService.restartGame(socketService.socket)
+    }
+  })
+
+  gameService.onGameStart(socketService.socket, (message) => {
+    handleChangeStartState()
+    showGameBoardUI()
+    if (message.status === 'running' && message.player === Player.Cross) {
+      changePlayerUI(message.player)
+      enableGameBoardUI()
+    } else {
+      disableGameBoardUI()
+    }
+  })
+
+  gameService.onMakeMove(socketService.socket, (message) => {
+    makeMove(message.coordinate)
+    enableGameBoardUI()
+  })
+
+  gameService.onGameRestarted(socketService.socket, () => {
+    restartGameStateStore()
+    changeRestartUI()
+  })
+}
