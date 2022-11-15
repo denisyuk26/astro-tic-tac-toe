@@ -1,0 +1,55 @@
+---
+import Icon from 'astro-icon'
+---
+
+<script>
+  import './lobby-info'
+</script>
+<div class="lobby-info">
+  <div class="lobby-info-name"></div>
+  <div class="lobby-info-status hide">Waiting for another player</div>
+
+  <div class="lobby-info-player hide">
+    <Icon class="player-cross hide" name="cross" />
+    <Icon class="player-circle hide" name="circle" />
+  </div>
+</div>
+<style lang="scss">
+  .lobby-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    &-name {
+      font-size: 36px;
+      color: #fff;
+      font-weight: 400;
+    }
+
+    &-status,
+    &-player {
+      font-size: 32px;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    &-player {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+  }
+
+  [astro-icon='cross'],
+  [astro-icon='circle'] {
+    max-width: 30px;
+    width: 100%;
+  }
+
+  .hide {
+    visibility: hidden;
+  }
+</style>

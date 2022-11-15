@@ -1,5 +1,6 @@
 ---
 import Game from '@components/game/game.astro'
+import Lobby from '@components/lobby/lobby.astro'
 import TopScreen from '@components/top-screen/top-screen.astro'
 import Layout from '@layouts/main-layout.astro'
 
@@ -9,7 +10,7 @@ Astro.cookies.delete('meal_id')
 <Layout title="Welcome to Astro.">
   <TopScreen />
   <main id="game">
-    <Game />
+    <Game class="game-main hide" />
   </main>
 </Layout>
 
@@ -20,5 +21,8 @@ Astro.cookies.delete('meal_id')
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
+  }
+  .hide {
+    display: none;
   }
 </style>

@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "@astrojs/netlify": "^1.2.0",
-    "astro": "^1.6.0"
+    "astro": "^1.6.0",
+    "socket.io-client": "^4.5.3"
   },
   "devDependencies": {
     "@astrojs/image": "^0.11.1",

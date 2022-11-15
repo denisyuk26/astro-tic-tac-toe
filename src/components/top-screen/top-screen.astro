@@ -1,15 +1,23 @@
-<div class="container">
+---
+import LobbyInfo from '@components/lobby-info/lobby-info.astro'
+import Lobby from '@components/lobby/lobby.astro'
+---
+
+<div id="top" class="container">
   <div class="content">
-    <h1>Do you argue or don't know whose turn it is to cook?</h1>
-    <h2>We have a solution for this:</h2>
-    <p class="intro">
-      Play
-      <span class="intro-text-1">Tic</span>
+    <h1>
+      Play <span class="intro-text-1">Tic</span>
       <span class="intro-text-2">Tac</span>
-      <span class="intro-text-3">Toe</span> (whose first move is your choice)
+      <span class="intro-text-3">Toe</span> online
+    </h1>
+    <h2>Steps:</h2>
+    <p class="intro">1. Create lobby</p>
+    <p class="intro">2. Tell lobby name to your friend</p>
+    <p class="intro">
+      3. Game started automatically after second player joining
     </p>
-    <p class="intro">The loser has to prepare the dish</p>
-    <a href="/#game">Play</a>
+    <Lobby class="lobby-main" />
+    <LobbyInfo />
   </div>
 </div>
 <style lang="scss">
@@ -47,6 +55,16 @@
   h1 {
     font-size: 60px;
 
+    & .intro-text-1 {
+      color: var(--cross-color);
+    }
+    & .intro-text-2 {
+      color: var(--circle-color);
+    }
+    & .intro-text-3 {
+      color: var(--board-cell-color);
+    }
+
     @include tablets() {
       font-size: 40px;
       text-align: center;
@@ -74,48 +92,15 @@
       font-size: 30px;
     }
 
-    &-text-1 {
-      color: var(--cross-color);
-    }
-    &-text-2 {
-      color: var(--circle-color);
-    }
-    &-text-3 {
-      color: var(--board-cell-color);
-    }
-
     &-text-1,
     &-text-2,
     &-text-3 {
-      font-size: 45px;
       font-style: italic;
       font-weight: 800;
 
       @include tablets() {
         font-size: 30px;
       }
-    }
-  }
-
-  a {
-    text-decoration: none;
-    color: var(--white-text);
-    background-color: rgb(13 58 70);
-    padding: var(--gap-size) calc(var(--gap-size) * 2);
-    border-radius: 5px;
-    max-width: 200px;
-    width: 100%;
-    margin: 0 auto;
-    font-size: 40px;
-    cursor: pointer;
-    text-align: center;
-
-    &:hover {
-      background-color: rgb(27, 101, 121);
-    }
-
-    &:active {
-      scale: 0.9;
     }
   }
 </style>

@@ -1,22 +1,25 @@
 ---
 import { Icon } from 'astro-icon'
 import GameBoard from './game-board.astro'
+
+const { class: className } = Astro.props
 ---
 
 <script>
   import './game'
 </script>
 
-<div class="container">
+<div class={`${className} container game`}>
   <div class="overlay">
     <div class="title">
       <h2><span>Tic</span><span>Tac</span><span>Toe</span></h2>
     </div>
+
     <div class="wrap x">
       <Icon name="cross" />
       <span class="left hidden">👈</span>
     </div>
-    <GameBoard className="game-board" />
+    <GameBoard className="game-board hide" />
     <div class="wrap o">
       <span class="right hidden">👉</span>
       <Icon name="circle" />

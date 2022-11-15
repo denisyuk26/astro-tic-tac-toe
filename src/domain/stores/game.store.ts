@@ -11,7 +11,7 @@ export enum Player {
   Circle = 'o',
 }
 
-enum CellCoordinate {
+export enum CellCoordinate {
   TopLeft = 0,
   TopCenter = 1,
   TopRight = 2,
@@ -23,16 +23,13 @@ enum CellCoordinate {
   BottomRight = 8,
 }
 
-enum CellValue {
+export enum CellValue {
   Empty = '',
   Cross = 'x',
   Circle = 'o',
 }
 
-type GameState = {
-  currentPlayer: Player
-  board: Record<CellCoordinate, CellValue>
-}
+export type GameState = Record<CellCoordinate, CellValue>
 
 export type LastMoveState = [CellCoordinate, Player]
 
@@ -55,10 +52,7 @@ function createEmptyGameBoard(): GameBoard {
 }
 
 function createGameStateStore(): GameStateStore {
-  return map<GameState>({
-    currentPlayer: Player.Cross,
-    board: createEmptyGameBoard(),
-  })
+  return map<GameState>(createEmptyGameBoard())
 }
 
 export function makeMove(coordinate: CellCoordinate): void {
@@ -70,28 +64,29 @@ export function makeMove(coordinate: CellCoordinate): void {
     throw new TypeError('Invalid coordinate')
   }
 
-  const { currentPlayer, board } = gameStateStore.get()
+  const board = gameStateStore.get()
+  const currentPlayer = currentPlayerStore.get()
 
   if (board[coordinate] !== CellValue.Empty) {
     return
   }
 
-  lastMoveStore.set([coordinate, currentPlayer])
-
   const nextPlayer =
     currentPlayer === Player.Cross ? Player.Circle : Player.Cross
+  const lastMove: LastMoveState = [coordinate, currentPlayer]
   const nextBoard = {
     ...board,
     [coordinate]: currentPlayer,
   }
-  gameStateStore.set({ currentPlayer: nextPlayer, board: nextBoard })
+
+  lastMoveStore.set(lastMove)
+  gameStateStore.set(nextBoard)
+  currentPlayerStore.set(nextPlayer)
 }
 
 export function restartGameStateStore(): void {
-  gameStateStore.set({
-    currentPlayer: Player.Cross,
-    board: createEmptyGameBoard(),
-  })
+  currentPlayerStore.set(Player.Cross)
+  gameStateStore.set(createEmptyGameBoard())
 }
 
 const POSSIBLE_COMBINATIONS: Combination[] = [
@@ -156,17 +151,13 @@ function isWinCombination(board: GameBoard, combination: Combination): boolean {
 }
 
 function getGameWinCombination(gameState: GameState): Combination | undefined {
-  const { board } = gameState
+  const board = gameState
 
   const closedCombinations = POSSIBLE_COMBINATIONS.filter((combination) =>
     isCombinationClosed(board, combination),
   )
 
   if (closedCombinations.length === 0) {
-    return
-  }
-
-  if (closedCombinations.length === POSSIBLE_COMBINATIONS.length) {
     return
   }
 
@@ -174,11 +165,19 @@ function getGameWinCombination(gameState: GameState): Combination | undefined {
     isWinCombination(board, combination),
   )
 
-  return winCombination
+  if (winCombination) {
+    return winCombination
+  }
+
+  if (closedCombinations.length === POSSIBLE_COMBINATIONS.length) {
+    return
+  }
+
+  return
 }
 
 function getGameStatus(gameState: GameState): GameStatus {
-  const { board } = gameState
+  const board = gameState
 
   const closedCombinations = POSSIBLE_COMBINATIONS.filter((combination) =>
     isCombinationClosed(board, combination),
@@ -186,10 +185,6 @@ function getGameStatus(gameState: GameState): GameStatus {
 
   if (closedCombinations.length === 0) {
     return GameStatus.Running
-  }
-
-  if (closedCombinations.length === POSSIBLE_COMBINATIONS.length) {
-    return GameStatus.Draw
   }
 
   const winCombination = closedCombinations.find((combination) =>
@@ -200,21 +195,21 @@ function getGameStatus(gameState: GameState): GameStatus {
     return GameStatus.Win
   }
 
+  if (closedCombinations.length === POSSIBLE_COMBINATIONS.length) {
+    return GameStatus.Draw
+  }
+
   return GameStatus.Running
 }
 
 function getGameWinner(store: GameState): Player | null {
-  const { board } = store
+  const board = store
 
   const closedCombinations = POSSIBLE_COMBINATIONS.filter((combination) =>
     isCombinationClosed(board, combination),
   )
 
   if (closedCombinations.length === 0) {
-    return null
-  }
-
-  if (closedCombinations.length === POSSIBLE_COMBINATIONS.length) {
     return null
   }
 
@@ -230,6 +225,10 @@ function getGameWinner(store: GameState): Player | null {
     return Player.Cross
   }
 
+  if (closedCombinations.length === POSSIBLE_COMBINATIONS.length) {
+    return null
+  }
+
   return Player.Circle
 }
 
@@ -237,10 +236,7 @@ export const gameStateStore = createGameStateStore()
 
 export const lastMoveStore = atom<LastMoveState | undefined>()
 
-export const currentPlayerStore = computed(
-  gameStateStore,
-  (gameState) => gameState.currentPlayer,
-)
+export const currentPlayerStore = atom<Player>(Player.Circle)
 
 export const gameStatusStore = computed(gameStateStore, (gameState) =>
   getGameStatus(gameState),

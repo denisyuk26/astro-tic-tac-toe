@@ -2,7 +2,7 @@ import { Combination, Player } from '../../domain/stores/game.store'
 import CircleSVG from '../../icons/circle.svg'
 import CrossSVG from '../../icons/cross.svg'
 
-const playButton: HTMLElement | null = document.getElementById('play-btn')
+const lobby: HTMLElement | null = document.querySelector('.lobby')
 const replayButton: HTMLElement | null = document.getElementById('replay-btn')
 const recipeButton: HTMLElement | null = document.getElementById('recipe-btn')
 const cellNodes: NodeListOf<Element> = document.querySelectorAll('.cell')
@@ -52,23 +52,6 @@ export function changePlayerUI(currentPlayer: Player) {
   }
 }
 
-export function changePlayerWinner(player: Player) {
-  if (!crossNode || !circleNode) {
-    return
-  }
-
-  circleNode.classList.remove('hidden')
-  crossNode.classList.remove('hidden')
-
-  if (player === Player.Cross) {
-    crossNode.innerHTML = '👑'
-    circleNode.innerHTML = '😭'
-  } else {
-    circleNode.innerHTML = '👑'
-    crossNode.innerHTML = '😭'
-  }
-}
-
 export function changeWinCombinationUI(combination: Readonly<Combination>) {
   const timeout = setTimeout(() => {
     combination.forEach((coordinate) => {
@@ -85,10 +68,10 @@ export function changeWinUI() {
     [recipeButton, 'hide', UIAction.Remove],
     [replayButton, 'hide', UIAction.Remove],
     [gameContainer, 'blur', UIAction.Add],
-    [playButton, 'hide', UIAction.Add],
+    [lobby, 'hide', UIAction.Add],
   ]
 
-  applyActionOnElements(data, 300)
+  applyActionOnElements(data, 1000)
 }
 
 export function changeDrawUI() {
@@ -96,12 +79,12 @@ export function changeDrawUI() {
     [gameOverlay, 'hide', UIAction.Remove],
     [replayButton, 'hide', UIAction.Remove],
     [recipeButton, 'hide', UIAction.Add],
-    [playButton, 'hide', UIAction.Add],
+    [lobby, 'hide', UIAction.Add],
     [gameContainer, 'blur', UIAction.Add],
     [circleNode, 'hidden', UIAction.Add],
     [crossNode, 'hidden', UIAction.Add],
   ]
-  applyActionOnElements(data)
+  applyActionOnElements(data, 300)
 }
 
 export function changeRestartUI() {
@@ -112,7 +95,7 @@ export function changeRestartUI() {
     [gameContainer, 'blur', UIAction.Remove],
     [recipeButton, 'hide', UIAction.Add],
     [replayButton, 'hide', UIAction.Add],
-    [playButton, 'hide', UIAction.Add],
+    [lobby, 'hide', UIAction.Add],
     [circleNode, 'hidden', UIAction.Add],
     [crossNode, 'hidden', UIAction.Remove],
   ]
@@ -150,3 +133,15 @@ export function changeCellUI(currentPlayer: Player, element: Element) {
 
   return () => clearTimeout(timeout)
 }
+
+export function showGameBoardUI() {
+  document.querySelector('.game-board')?.classList.remove('hide')
+}
+export function disableGameBoardUI() {
+  document.querySelector('.game-container')?.classList.remove('active')
+}
+export function enableGameBoardUI() {
+  document.querySelector('.game-container')?.classList.add('active')
+}
+
+export function startGameUI() {}
