@@ -106,6 +106,10 @@ export function changeRestartUI() {
   }
   crossNode.innerHTML = '👈'
   circleNode.innerHTML = '👉'
+
+  cellNodes.forEach((node) => {
+    node.innerHTML = ''
+  })
 }
 
 export function changeStartUI() {

@@ -1,4 +1,4 @@
-import { Player } from '@domain/stores/game.store'
+import { CellCoordinate, CellValue, Player } from '@domain/stores/game.store'
 import { RoomStatus } from '@domain/stores/lobby-store'
 import { Socket } from 'socket.io-client'
 
@@ -22,7 +22,11 @@ class LobbyService {
 
   public async onRoomLeave(
     socket: Socket,
-    listener: (message: { status: 'pending'; id: string }) => void,
+    listener: (message: {
+      status: 'pending'
+      id: string
+      board: Record<CellCoordinate, CellValue>
+    }) => void,
   ) {
     socket.on('room_left', listener)
   }

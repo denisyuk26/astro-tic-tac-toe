@@ -1,4 +1,10 @@
-import { CellCoordinate, CellValue, Player } from '@domain/stores/game.store'
+import {
+  CellCoordinate,
+  CellValue,
+  Combination,
+  GameStatus,
+  Player,
+} from '@domain/stores/game.store'
 import { Socket } from 'socket.io-client'
 
 class GameService {
@@ -6,9 +12,20 @@ class GameService {
 
   public async onGameStart(
     socket: Socket,
-    listener: (message: { player: Player; status: string }) => void,
+    listener: (message: {
+      player: Player
+      status: GameStatus
+      board: Record<CellCoordinate, CellValue>
+    }) => void,
   ) {
-    socket.on('start_game', listener)
+    socket.on(
+      'start_game',
+      (message: {
+        player: Player
+        status: GameStatus
+        board: Record<CellCoordinate, CellValue>
+      }) => listener(message),
+    )
   }
 
   public async makeMove(
@@ -24,11 +41,36 @@ class GameService {
 
   public async onMakeMove(
     socket: Socket,
-    listener: (message: { coordinate: number }) => void,
+    listener: (message: {
+      board: Record<CellCoordinate, CellValue>
+      move: [CellCoordinate, Player]
+    }) => void,
   ) {
-    socket.on('move_made', (message: { coordinate: number }) =>
-      listener(message),
+    socket.on(
+      'move_made',
+      (message: {
+        board: Record<CellCoordinate, CellValue>
+        move: [CellCoordinate, Player]
+      }) => listener(message),
     )
+  }
+
+  public async onGameWin(
+    socket: Socket,
+    listener: (mesasge: { user: Player; combination: Combination }) => void,
+  ) {
+    socket.on(
+      'winner',
+      (message: { user: Player; combination: Combination }) => {
+        listener(message)
+      },
+    )
+  }
+
+  public async onGameDraw(socket: Socket, listener: () => void) {
+    socket.on('draw', () => {
+      listener()
+    })
   }
 
   public async restartGame(socket: Socket) {
@@ -37,9 +79,13 @@ class GameService {
 
   public onGameRestarted(
     socket: Socket,
-    listener: (message: { player: Player; status: string }) => void,
+    listener: (message: {
+      status: GameStatus
+      player: Player
+      board: Record<CellCoordinate, CellValue>
+    }) => void,
   ) {
-    socket.on('restarted_game', listener)
+    socket.on('restarted_game', (message) => listener(message))
   }
 }
 

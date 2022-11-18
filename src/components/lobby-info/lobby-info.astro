@@ -10,8 +10,8 @@ import Icon from 'astro-icon'
   <div class="lobby-info-status hide">Waiting for another player</div>
 
   <div class="lobby-info-player hide">
-    <Icon class="player-cross hide" name="cross" />
-    <Icon class="player-circle hide" name="circle" />
+    <span class="player-cross hide">You are: <Icon name="cross" /></span>
+    <span class="player-circle hide">Ypu are: <Icon name="circle" /></span>
   </div>
 </div>
 <style lang="scss">
@@ -40,7 +40,14 @@ import Icon from 'astro-icon'
       display: flex;
       justify-content: center;
       gap: 10px;
+      position: relative;
     }
+  }
+
+  .player-cross,
+  .player-circle {
+    position: absolute;
+    margin: 0 auto;
   }
 
   [astro-icon='cross'],
