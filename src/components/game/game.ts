@@ -17,9 +17,6 @@ import {
   enableGameBoardUI,
 } from './game-ui'
 
-const WS_URL = import.meta.env.DEV ? 'localhost:3535' : import.meta.env.WS
-console.log(WS_URL)
-
 const replayButton: HTMLElement | null = document.getElementById('replay-btn')
 const recipeButton: HTMLElement | null = document.getElementById('recipe-btn')
 const cellNodes: NodeListOf<Element> = document.querySelectorAll('.cell')
@@ -52,8 +49,7 @@ function handleRedirectToDish() {
 }
 
 async function init() {
-  // await socketService.connect('https://wsdata.herokuapp.com')
-  await socketService.connect(WS_URL)
+  await socketService.connect('https://wsdata.herokuapp.com')
 
   if (!replayButton || !recipeButton) {
     throw new Error('could not find elements')
