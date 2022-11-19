@@ -2,7 +2,7 @@ import gameService from '@domain/services/game-service'
 import lobbyService from '@domain/services/lobby-service'
 import socketService from '@domain/services/socket-service'
 import { gameStateStore, Player } from '@domain/stores/game.store'
-import { lobbyStore, roomPlayer } from '@domain/stores/lobby-store'
+import { roomPlayer } from '@domain/stores/lobby-store'
 
 import {
   changeCellUI,
@@ -16,6 +16,8 @@ import {
   disableGameBoardUI,
   enableGameBoardUI,
 } from './game-ui'
+
+const WS_URL = import.meta.env.DEV ? 'localhost:3535' : import.meta.env.WS
 
 const replayButton: HTMLElement | null = document.getElementById('replay-btn')
 const recipeButton: HTMLElement | null = document.getElementById('recipe-btn')
@@ -50,7 +52,7 @@ function handleRedirectToDish() {
 
 async function init() {
   // await socketService.connect('https://wsdata.herokuapp.com')
-  await socketService.connect('localhost:3535')
+  await socketService.connect(WS_URL)
 
   if (!replayButton || !recipeButton) {
     throw new Error('could not find elements')

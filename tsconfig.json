@@ -5,6 +5,8 @@
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "target": "es2020",
+    "module": "es2020",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "types": ["astro/client", "node", "vitest/globals"],
