@@ -9,10 +9,6 @@ const playerCircle = document.querySelector('.player-circle')
 
 const gameContainer = document.querySelector('.game-main')
 
-const div = document.createElement('div')
-div.innerHTML = `You are: `
-lobbyInfoPlayer?.insertBefore(div, playerCross)
-
 export function showLobbyInfo(room: string) {
   if (!lobbyInfoContainer) {
     throw new Error('error')
@@ -37,14 +33,20 @@ export function showPlayer(player: Player) {
     if (player === Player.Cross) {
       if (playerCross) {
         playerCross?.classList.remove('hide')
-        playerCircle?.remove()
+        playerCircle?.classList.add('hide')
       }
     } else {
       if (playerCircle) {
         playerCircle?.classList.remove('hide')
-        playerCross?.remove()
+        playerCross?.classList.add('hide')
       }
     }
+  }
+}
+
+export function hidePlayer() {
+  if (lobbyInfoPlayer) {
+    lobbyInfoPlayer.classList.add('hide')
   }
 }
 
@@ -79,8 +81,7 @@ export function runTimer() {
 export function showPendingMessage() {
   if (lobbyInfoStatus) {
     lobbyInfoStatus.classList.remove('hide')
-
-    lobbyInfoStatus.innerHTML = `Waiting for another player`
+    lobbyInfoStatus.innerHTML = 'Waiting for another player'
   }
 }
 

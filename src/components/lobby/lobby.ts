@@ -1,7 +1,11 @@
+import {
+  hidePlayer,
+  showPendingMessage,
+} from '@components/lobby-info/lobby-info-ui'
 import lobbyService from '@domain/services/lobby-service'
 import socketService from '@domain/services/socket-service'
-import { currentPlayerStore } from '@domain/stores/game.store'
 import {
+  roomPlayer,
   RoomStatus,
   roomStatus,
   updateRoomState,
@@ -77,9 +81,11 @@ if (socketService.socket) {
   })
 
   lobbyService.onRoomLeave(socketService.socket, (message) => {
-    const player = currentPlayerStore.get()
+    const player = roomPlayer.get()
     updateRoomState(message.status as RoomStatus, message.id, player)
     srollToTopScreen()
+    showPendingMessage()
+    hidePlayer()
   })
 
   lobbyService.onLobbbyFull(socketService.socket, (message) => {
